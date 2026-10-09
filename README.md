@@ -51,6 +51,14 @@ Local-first A-share research dashboard with rule-based entry checks, holding exi
 
 当前没有经过验证的胜率。候选改进需要隔离期、前向交易样本及成本、回撤和集中度检查；截图展示规则门槛，并非已达成的收益结果。
 
+## AI 顾问：在看板里直接提问
+
+![AI 顾问弹窗](docs/images/ai-assistant.jpg)
+
+点击 AI 顾问打开当前页面弹窗，行情页面与所选股票保留。关闭、按 Esc 或点击遮罩可返回；重新打开保留当前对话与未发送草稿。手机使用全屏弹窗。
+
+聊天需要可用的本机 Codex 配置，普通源码安装不会自动接入。此截图展示弹窗交互，没有代表真实提问或回答已验收。
+
 ## 快速开始
 
 需要 Python 3.12 和 uv。以下命令在仓库根目录执行：

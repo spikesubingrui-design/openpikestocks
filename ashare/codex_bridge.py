@@ -6,7 +6,9 @@ from pathlib import Path
 
 
 class CodexError(RuntimeError):
-    pass
+    def __init__(self, message, diagnostic=None):
+        super().__init__(message)
+        self.diagnostic = diagnostic
 
 
 class CodexBridge:
@@ -43,6 +45,8 @@ class CodexBridge:
                         'multi_agent', 'hooks', 'chronicle', 'goals')
             settings.update({'features.'+key: 'false' for key in disabled})
             settings['features.skip_host_skill_discovery'] = 'true'
+            settings['features.respect_system_proxy'] = 'true'
+            settings['features.system_proxy_fallback'] = 'true'
             for key, value in settings.items():
                 args += ['-c', key+'='+value]
             self.proc = await asyncio.create_subprocess_exec(*args, cwd=self.directory,
@@ -58,7 +62,7 @@ class CodexBridge:
                 self.account_ready = result.get('account') is not None
                 if not self.account_ready:
                     raise CodexError('请先在本机 Codex 登录；顾问不会读取或索取你的密码。')
-            except Exception:
+            except BaseException:
                 await self.close()
                 raise
 
@@ -83,8 +87,9 @@ class CodexBridge:
             self.pending.pop(identifier, None)
 
     async def _read(self):
+        proc = self.proc
         try:
-            while line := await self.proc.stdout.readline():
+            while line := await proc.stdout.readline():
                 try:
                     message = json.loads(line)
                 except ValueError:
@@ -99,7 +104,7 @@ class CodexBridge:
                     future = self.pending[message['id']]
                     if not future.done():
                         if 'error' in message:
-                            future.set_exception(CodexError('Codex 未能完成请求，请检查本机登录、额度或连接后重试。'))
+                            future.set_exception(CodexError('Codex 未能完成请求，请检查本机登录、额度或连接后重试。',message['error']))
                         else:
                             future.set_result(message.get('result', {}))
         finally:

@@ -117,3 +117,16 @@ def test_outbound_forward_never_contacts_arbitrary_host():
             assert good['status']==200 and seen[0].url.host=='127.0.0.1'
             assert 'authorization' not in seen[0].headers
     asyncio.run(exercise())
+
+
+def test_remote_embedded_advisor_retains_auth_and_scoped_framing(tmp_path):
+    app=create_gateway(tmp_path/'framing.db',transport=httpx.MockTransport(lambda request:httpx.Response(200,text='advisor')))
+    access=app.state.access
+    access.configure(PASSWORD,access.get('setup_token'))
+    headers={'host':DOMAIN,'x-openpike-relay':access.get('relay_token')}
+    with TestClient(app,base_url=ORIGIN,headers=headers) as client:
+        assert client.get('/advisor?embedded=1',follow_redirects=False).status_code==303
+        assert client.post('/auth/login',headers={'origin':ORIGIN},json={'password':PASSWORD}).status_code==200
+        assert "frame-ancestors 'self'" in client.get('/advisor?embedded=1').headers['content-security-policy']
+        assert "frame-ancestors 'none'" in client.get('/advisor').headers['content-security-policy']
+        assert "frame-ancestors 'none'" in client.get('/login?embedded=1').headers['content-security-policy']

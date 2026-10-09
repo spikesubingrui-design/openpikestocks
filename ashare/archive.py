@@ -13,7 +13,7 @@ class Archive:
         self.store=store;self.root=store.path.parent/'strategy_archive';self.root.mkdir(parents=True,exist_ok=True)
         self.code={name:(Path(__file__).parent/name).read_text() for name in
                    ['strategy.py','providers.py','config.py','learning.py','ledger.py','engine.py','calendar.py',
-                    'store.py','app.py','archive.py','actions.py']}
+                    'store.py','app.py','archive.py','actions.py','advisor.py','codex_bridge.py']}
         self.previous_signature=None
         readme=self.root/'README.md'
         if not readme.exists(): readme.write_text('''# OpenPike Stocks 策略档案
@@ -108,7 +108,7 @@ SQLite中的真实/纸面成交、完整交易和验证结果通过策略版本�
             key=hashlib.sha256(dumps([str(now().date()),mid,validation,r['status']]).encode()).hexdigest()
             self.write(f'validation/{key}.json',{'id':key,'at':now().isoformat(),'manifest_id':mid,
                 'candidate':r,'validation':validation,'notice':'未通过全部门槛不会自动采用，也不展示胜率'})
-        for kind in ('research','financial_evidence','announcement_document'):
+        for kind in ('research','financial_evidence','announcement_document','advisor_note'):
             for r in self.store.all(kind):
                 key=kind+':'+r['id']
                 if self.store.get('archived_evidence',key): continue

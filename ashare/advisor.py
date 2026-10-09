@@ -8,7 +8,7 @@ import threading
 import uuid
 from pathlib import Path
 from urllib.parse import urlparse
-from .calendar import now
+from .calendar import now,bar_complete
 from .config import VERSION, SEEDS, eligible
 from .codex_bridge import CodexBridge, CodexError
 
@@ -56,11 +56,12 @@ class Advisor:
         self.db.execute("UPDATE turns SET status='interrupted',error='主机重启中断了回答，请查看历史后重新发送。' WHERE status IN ('queued','running')")
         self.db.commit(); path.chmod(0o600)
         self.bridge = bridge_factory(self.directory/'runtime', self.event, self.tool)
-        self.current = None; self.job = None; self.completed = None; self.items = {}; self.tool_count = 0
+        self.current = None; self.job = None; self.completed = None; self.items = {}; self.tool_count = 0; self.tool_results={}
 
     def status(self):
         return {'provider': 'Codex', 'connected': self.bridge.account_ready,
-                'busy': self.current is not None, 'model': self.current.get('model') if self.current else None,
+                'busy': self.current is not None, 'active_conversation':self.current.get('conversation') if self.current else None,
+                'model': self.current.get('model') if self.current else None,
                 'notice': '问答与草稿保存在本机。确认后才保存关注股或笔记；策略想法不改写评分。'}
 
     def conversations(self):
@@ -78,9 +79,10 @@ class Advisor:
         with self.lock:
             row = self.db.execute('SELECT id,title,created,model FROM conversations WHERE id=?', (conversation,)).fetchone()
             if not row: raise ValueError('对话不存在')
-            turns = [dict(r) for r in self.db.execute('SELECT id,question,answer,status,created,updated,error,evidence FROM turns WHERE conversation=? ORDER BY created LIMIT 1000', (conversation,))]
+            turns = [dict(r) for r in self.db.execute('SELECT id,request_id,question,answer,status,created,updated,error,evidence FROM turns WHERE conversation=? ORDER BY created DESC LIMIT 25', (conversation,))][::-1]
             for turn in turns: turn['evidence'] = json.loads(turn['evidence'] or '{}')
-            proposals = [dict(r) for r in self.db.execute('SELECT * FROM proposals WHERE conversation=? ORDER BY created', (conversation,))]
+            proposals = [dict(r) for r in self.db.execute("SELECT * FROM proposals WHERE conversation=? AND status='pending' ORDER BY created", (conversation,))]
+            proposals += [dict(r) for r in self.db.execute("SELECT * FROM proposals WHERE conversation=? AND status!='pending' ORDER BY created DESC LIMIT 5", (conversation,))]
             for p in proposals:
                 p['sources'] = json.loads(p['sources']); p['result'] = json.loads(p['result'] or '{}')
             return {'conversation': dict(row), 'turns': turns, 'proposals': proposals}
@@ -111,14 +113,23 @@ class Advisor:
             self.db.execute('UPDATE turns SET '+','.join(k+'=?' for k in values)+' WHERE id=?', (*values.values(), self.current['id'])); self.db.commit()
 
     async def run(self):
-        self.items = {}; self.tool_count = 0; self.completed = asyncio.Event()
+        self.items = {}; self.tool_count = 0; self.tool_results={}; self.completed = asyncio.Event()
         try:
             await self.bridge.start()
             with self.lock:
                 c = dict(self.db.execute('SELECT * FROM conversations WHERE id=?', (self.current['conversation'],)).fetchone())
-            common = {'cwd': str(self.directory/'runtime'), 'approvalPolicy': 'never', 'sandbox': 'readOnly',
+            disabled_mcp = {}
+            cursor = None
+            for _ in range(10):
+                inventory = await self.bridge.call('mcpServerStatus/list', {'limit':100,'cursor':cursor})
+                for item in inventory.get('data',[]):
+                    disabled_mcp[item['name']] = {'enabled':False}
+                cursor = inventory.get('nextCursor')
+                if not cursor: break
+            else: raise CodexError('工具配置过多，顾问已停止连接。')
+            common = {'cwd': str(self.directory/'runtime'), 'approvalPolicy': 'never', 'sandbox': 'read-only',
                       'baseInstructions': INSTRUCTIONS, 'developerInstructions': INSTRUCTIONS,
-                      'config': {'mcp_servers': {}, 'project_doc_max_bytes': 0}, 'environments': []}
+                      'config': {'mcp_servers': disabled_mcp, 'project_doc_max_bytes': 0}, 'environments': []}
             if c['codex_id']:
                 result = await self.bridge.call('thread/resume', {'threadId': c['codex_id'], **common})
             else:
@@ -126,8 +137,10 @@ class Advisor:
                     'serviceName': 'openpike_stocks', 'ephemeral': False})
             self.current['codex_id'] = result['thread']['id']; self.current['model'] = result.get('model')
             # Fail closed if inherited MCP configuration survives an override.
-            mcp = await self.bridge.call('mcpServerStatus/list', {'limit': 100})
-            if mcp.get('data'): raise CodexError('顾问发现非白名单工具配置，已停止连接。')
+            mcp = await self.bridge.call('mcpServerStatus/list', {'limit':100,'threadId':self.current['codex_id']})
+            if any(item.get('runtimeStatus')!='disabled' or item.get('tools') for item in mcp.get('data',[])) or mcp.get('nextCursor'):
+                await self.bridge.close()
+                raise CodexError('顾问发现非白名单工具配置，已停止连接。')
             with self.lock:
                 self.db.execute('UPDATE conversations SET codex_id=?,model=? WHERE id=?',
                     (self.current['codex_id'], self.current['model'], c['id'])); self.db.commit()
@@ -173,10 +186,16 @@ class Advisor:
             if self.completed: self.completed.set()
             return
         if params.get('threadId') != self.current.get('codex_id'): return
-        if method == 'item/agentMessage/delta':
+        if method=='turn/started':
+            self.current['codex_turn']=params['turn']['id']
+        event_turn=params.get('turnId') or params.get('turn',{}).get('id')
+        if event_turn and self.current.get('codex_turn') and event_turn!=self.current['codex_turn']: return
+        if method=='error':
+            self.update(error='模型连接中断，正在恢复；原提问仍保留。' if params.get('willRetry') else '模型请求未完成，请检查本机登录、额度或连接。')
+        elif method == 'item/agentMessage/delta':
             item = params.get('itemId', 'answer')
             self.items[item] = self.items.get(item, '') + params.get('delta', '')
-            self.update(answer='\n\n'.join(self.items.values())[:60000])
+            self.update(answer='\n\n'.join(self.items.values())[:60000],error=None)
         elif method == 'item/completed' and params.get('item', {}).get('type') == 'agentMessage':
             item = params['item']; self.items[item['id']] = item.get('text', '')
             self.update(answer='\n\n'.join(self.items.values())[:60000])
@@ -207,20 +226,29 @@ class Advisor:
             'announcements': self.store.get('announcements', code),
             'documents': [{k:v for k,v in d.items() if k not in ('path','text','content')} for d in self.store.all('announcement_document') if d['code']==code][:8],
             'closed_daily': [b for b in self.store.bars(code, 'day') if b['stamp'][:10] < str(now().date())][-25:],
-            'completed_5m': [b for b in self.store.bars(code, '5m') if b.get('complete')][-30:]}
+            'completed_5m': [b for b in self.store.bars(code, '5m') if b.get('complete',True) and bar_complete(b['stamp'],now())][-30:]}
 
     async def tool(self, params):
         if not self.current or params.get('threadId') != self.current.get('codex_id'): raise ValueError('未知顾问对话')
+        if self.current.get('codex_turn') and params.get('turnId')!=self.current['codex_turn']: raise ValueError('工具所属轮次不匹配')
+        call=params.get('callId')
+        fingerprint=hashlib.sha256(json.dumps([params.get('tool'),params.get('arguments')],sort_keys=True,ensure_ascii=False).encode()).hexdigest()
+        if call in self.tool_results:
+            old,value=self.tool_results[call]
+            if old!=fingerprint: raise ValueError('工具调用编号对应不同内容')
+            return value
         self.tool_count += 1
         if self.tool_count>30: raise ValueError('本轮工具次数达到上限')
         arguments = params.get('arguments', {})
         if isinstance(arguments, str): arguments = json.loads(arguments)
         if not isinstance(arguments, dict): raise ValueError('参数无效')
         name = params['tool']
-        if name == 'stocks_snapshot' and not arguments: return self.snapshot()
-        if name == 'stock_details' and set(arguments)=={'code'}: return self.details(arguments['code'])
-        if name == 'save_change_proposal': return self.propose(self.current['conversation'], arguments)
-        raise ValueError('顾问工具不在白名单内')
+        if name == 'stocks_snapshot' and not arguments: value=self.snapshot()
+        elif name == 'stock_details' and set(arguments)=={'code'}: value=self.details(arguments['code'])
+        elif name == 'save_change_proposal': value=self.propose(self.current['conversation'], arguments)
+        else: raise ValueError('顾问工具不在白名单内')
+        if call: self.tool_results[call]=(fingerprint,value)
+        return value
 
     def propose(self, conversation, data):
         if set(data) != {'kind','code','text','sources'}: raise ValueError('草稿格式不正确')
@@ -233,6 +261,8 @@ class Advisor:
         if kind == 'research_note' and not sources: raise ValueError('研究笔记须附来源')
         identifier = uuid.uuid4().hex
         with self.lock:
+            if self.db.execute("SELECT count(*) FROM proposals WHERE conversation=? AND status='pending'",(conversation,)).fetchone()[0]>=6:
+                raise ValueError('请先处理已有修改草稿')
             self.db.execute('INSERT INTO proposals VALUES(?,?,?,?,?,?,?,?,?,?)',
                 (identifier, conversation, kind, code, text, json.dumps(sources,ensure_ascii=False), 'pending', secrets.token_urlsafe(32), now().isoformat(), '{}')); self.db.commit()
         return {'id': identifier, 'status': 'pending', 'notice': '草稿已准备，等待所有者在软件确认；没有改写评分或风险核查。'}

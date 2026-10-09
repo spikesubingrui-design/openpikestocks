@@ -135,7 +135,8 @@ def create_app(path=None,collect=True):
         response=await call_next(request)
         response.headers['Cache-Control']='no-store'
         response.headers['X-Content-Type-Options']='nosniff'
-        response.headers['Content-Security-Policy']="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; frame-ancestors 'none'; base-uri 'none'"
+        ancestors = "'self'" if request.url.path == '/advisor' and request.query_params.get('embedded') == '1' else "'none'"
+        response.headers['Content-Security-Policy']=f"default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; frame-ancestors {ancestors}; base-uri 'none'"
         return response
 
     @app.exception_handler(ValueError)
