@@ -1,0 +1,334 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-09T04:19:57.071530+00:00",
+  "title": "Design System: OpenPike Stocks",
+  "extensions": {
+    "colorMeta": {
+      "bg": {
+        "role": "neutral",
+        "displayName": "深炭底色",
+        "tonalRamp": [
+          "oklch(15% 0.00802 248.32)",
+          "oklch(26% 0.00802 248.32)",
+          "oklch(38% 0.00802 248.32)",
+          "oklch(49% 0.00802 248.32)",
+          "oklch(61% 0.00802 248.32)",
+          "oklch(72% 0.00802 248.32)",
+          "oklch(84% 0.00802 248.32)",
+          "oklch(95% 0.00802 248.32)"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "终端面板",
+        "tonalRamp": [
+          "oklch(15% 0.00996 248.29)",
+          "oklch(26% 0.00996 248.29)",
+          "oklch(38% 0.00996 248.29)",
+          "oklch(49% 0.00996 248.29)",
+          "oklch(61% 0.00996 248.29)",
+          "oklch(72% 0.00996 248.29)",
+          "oklch(84% 0.00996 248.29)",
+          "oklch(95% 0.00996 248.29)"
+        ]
+      },
+      "raised": {
+        "role": "neutral",
+        "displayName": "抬高灰",
+        "tonalRamp": [
+          "oklch(15% 0.01351 253.07)",
+          "oklch(26% 0.01351 253.07)",
+          "oklch(38% 0.01351 253.07)",
+          "oklch(49% 0.01351 253.07)",
+          "oklch(61% 0.01351 253.07)",
+          "oklch(72% 0.01351 253.07)",
+          "oklch(84% 0.01351 253.07)",
+          "oklch(95% 0.01351 253.07)"
+        ]
+      },
+      "border": {
+        "role": "neutral",
+        "displayName": "边界灰",
+        "tonalRamp": [
+          "oklch(15% 0.01665 255.64)",
+          "oklch(26% 0.01665 255.64)",
+          "oklch(38% 0.01665 255.64)",
+          "oklch(49% 0.01665 255.64)",
+          "oklch(61% 0.01665 255.64)",
+          "oklch(72% 0.01665 255.64)",
+          "oklch(84% 0.01665 255.64)",
+          "oklch(95% 0.01665 255.64)"
+        ]
+      },
+      "text": {
+        "role": "neutral",
+        "displayName": "明亮正文",
+        "tonalRamp": [
+          "oklch(15% 0.00457 258.33)",
+          "oklch(26% 0.00457 258.33)",
+          "oklch(38% 0.00457 258.33)",
+          "oklch(49% 0.00457 258.33)",
+          "oklch(61% 0.00457 258.33)",
+          "oklch(72% 0.00457 258.33)",
+          "oklch(84% 0.00457 258.33)",
+          "oklch(95% 0.00457 258.33)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "辅助灰",
+        "tonalRamp": [
+          "oklch(15% 0.01469 258.35)",
+          "oklch(26% 0.01469 258.35)",
+          "oklch(38% 0.01469 258.35)",
+          "oklch(49% 0.01469 258.35)",
+          "oklch(61% 0.01469 258.35)",
+          "oklch(72% 0.01469 258.35)",
+          "oklch(84% 0.01469 258.35)",
+          "oklch(95% 0.01469 258.35)"
+        ]
+      },
+      "gold": {
+        "role": "primary",
+        "displayName": "行情金",
+        "tonalRamp": [
+          "oklch(15% 0.16490 86.69)",
+          "oklch(26% 0.16490 86.69)",
+          "oklch(38% 0.16490 86.69)",
+          "oklch(49% 0.16490 86.69)",
+          "oklch(61% 0.16490 86.69)",
+          "oklch(72% 0.16490 86.69)",
+          "oklch(84% 0.16490 86.69)",
+          "oklch(95% 0.16490 86.69)"
+        ]
+      },
+      "green": {
+        "role": "secondary",
+        "displayName": "上涨绿",
+        "tonalRamp": [
+          "oklch(15% 0.15438 163.95)",
+          "oklch(26% 0.15438 163.95)",
+          "oklch(38% 0.15438 163.95)",
+          "oklch(49% 0.15438 163.95)",
+          "oklch(61% 0.15438 163.95)",
+          "oklch(72% 0.15438 163.95)",
+          "oklch(84% 0.15438 163.95)",
+          "oklch(95% 0.15438 163.95)"
+        ]
+      },
+      "red": {
+        "role": "secondary",
+        "displayName": "下跌红",
+        "tonalRamp": [
+          "oklch(15% 0.18036 15.94)",
+          "oklch(26% 0.18036 15.94)",
+          "oklch(38% 0.18036 15.94)",
+          "oklch(49% 0.18036 15.94)",
+          "oklch(61% 0.18036 15.94)",
+          "oklch(72% 0.18036 15.94)",
+          "oklch(84% 0.18036 15.94)",
+          "oklch(95% 0.18036 15.94)"
+        ]
+      },
+      "gold-hover": {
+        "role": "primary",
+        "displayName": "亮金",
+        "tonalRamp": [
+          "oklch(15% 0.16762 94.19)",
+          "oklch(26% 0.16762 94.19)",
+          "oklch(38% 0.16762 94.19)",
+          "oklch(49% 0.16762 94.19)",
+          "oklch(61% 0.16762 94.19)",
+          "oklch(72% 0.16762 94.19)",
+          "oklch(84% 0.16762 94.19)",
+          "oklch(95% 0.16762 94.19)"
+        ]
+      },
+      "button-text": {
+        "role": "neutral",
+        "displayName": "按钮墨色",
+        "tonalRamp": [
+          "oklch(15% 0.01215 270.81)",
+          "oklch(26% 0.01215 270.81)",
+          "oklch(38% 0.01215 270.81)",
+          "oklch(49% 0.01215 270.81)",
+          "oklch(61% 0.01215 270.81)",
+          "oklch(72% 0.01215 270.81)",
+          "oklch(84% 0.01215 270.81)",
+          "oklch(95% 0.01215 270.81)"
+        ]
+      },
+      "chart-grid": {
+        "role": "neutral",
+        "displayName": "图表网格灰",
+        "tonalRamp": [
+          "oklch(15% 0.01502 256.80)",
+          "oklch(26% 0.01502 256.80)",
+          "oklch(38% 0.01502 256.80)",
+          "oklch(49% 0.01502 256.80)",
+          "oklch(61% 0.01502 256.80)",
+          "oklch(72% 0.01502 256.80)",
+          "oklch(84% 0.01502 256.80)",
+          "oklch(95% 0.01502 256.80)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "headline": {
+        "displayName": "股票标题",
+        "purpose": "桌面股票名与栏目标题。"
+      },
+      "quote": {
+        "displayName": "主报价",
+        "purpose": "当前股票价格；响应式尺寸见DESIGN.md。"
+      },
+      "title": {
+        "displayName": "面板标题",
+        "purpose": "紧凑面板和分区标题。"
+      },
+      "body": {
+        "displayName": "正文",
+        "purpose": "页面基本文字。"
+      },
+      "label": {
+        "displayName": "辅助标签",
+        "purpose": "来源、时间及辅助字段。"
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "score-scroll",
+        "value": "smooth",
+        "purpose": "查看评分时滚动到评分区；prefers-reduced-motion: reduce时使用auto。"
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "wide",
+        "value": "1550px"
+      },
+      {
+        "name": "compact-desktop",
+        "value": "1180px"
+      },
+      {
+        "name": "two-column",
+        "value": "980px"
+      },
+      {
+        "name": "chart-first",
+        "value": "760px"
+      },
+      {
+        "name": "paired-books",
+        "value": "480px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "金色操作按钮",
+      "kind": "button",
+      "refersTo": "button-gold",
+      "description": "条件详情入口；不代表证券委托。",
+      "html": "<button class=\"ds-gold\">查看评分与条件</button>",
+      "css": ".ds-gold{font-family:Inter, -apple-system, BlinkMacSystemFont, \"PingFang SC\", \"Microsoft YaHei\", sans-serif;font-size:13px;line-height:1.55;background:var(--gold,#f0b90b);color:var(--button-text,#181a20);border:1px solid var(--gold,#f0b90b);border-radius:4px;padding:7px 12px;min-height:36px;font-weight:600;cursor:pointer}.ds-gold:hover{background:var(--gold-hover,#f8d12f)}.ds-gold:focus-visible{outline:2px solid var(--gold,#f0b90b);outline-offset:3px;}.ds-gold:disabled{opacity:.45;cursor:default}"
+    },
+    {
+      "name": "默认按钮与SVG",
+      "kind": "button",
+      "refersTo": "button-default",
+      "description": "统一细线图标和禁用状态。",
+      "html": "<button class=\"ds-default\" aria-label=\"刷新行情\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M20 7v5h-5M20 12a8 8 0 1 0-2.3 5.7M20 12l-3-4\"/></svg></button>",
+      "css": ".ds-default{font-family:Inter, -apple-system, BlinkMacSystemFont, \"PingFang SC\", \"Microsoft YaHei\", sans-serif;font-size:13px;line-height:1.55;display:inline-flex;align-items:center;justify-content:center;background:transparent;color:var(--text,#eaecef);border:1px solid var(--border,#2b3139);border-radius:4px;padding:7px 12px;min-height:32px;cursor:pointer}.ds-default svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}.ds-default:hover{background:var(--raised,#1e2329)}.ds-default:focus-visible{outline:2px solid var(--gold,#f0b90b);outline-offset:3px;}.ds-default:disabled{opacity:.45;cursor:default}"
+    },
+    {
+      "name": "搜索输入",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "深炭字段与金色焦点。",
+      "html": "<input class=\"ds-input\" type=\"search\" aria-label=\"搜索代码或名称\" placeholder=\"搜索代码 / 名称\">",
+      "css": ".ds-input{font-family:Inter, -apple-system, BlinkMacSystemFont, \"PingFang SC\", \"Microsoft YaHei\", sans-serif;font-size:13px;line-height:1.55;background:var(--bg,#0b0e11);color:var(--text,#eaecef);border:1px solid var(--border,#2b3139);border-radius:4px;padding:9px 10px;min-width:0;max-width:100%}.ds-input::placeholder{color:var(--muted,#a1a7b0)}.ds-input:focus{border-color:var(--gold,#f0b90b)}.ds-input:focus-visible{outline:2px solid var(--gold,#f0b90b);outline-offset:3px;}"
+    },
+    {
+      "name": "栏目导航",
+      "kind": "nav",
+      "refersTo": "navigation",
+      "description": "文字导航配活动项底部金线。",
+      "html": "<nav class=\"ds-nav\" aria-label=\"看板栏目\"><button class=\"ds-nav-active\" aria-selected=\"true\">行情</button><button aria-selected=\"false\">研究</button><button aria-selected=\"false\">策略验证</button></nav>",
+      "css": ".ds-nav{display:flex;gap:26px;height:42px;background:var(--surface,#161a1e);overflow-x:auto}.ds-nav button{font-family:Inter, -apple-system, BlinkMacSystemFont, \"PingFang SC\", \"Microsoft YaHei\", sans-serif;font-size:13px;line-height:1.55;font-size:14px;background:transparent;color:var(--muted,#a1a7b0);border:0;border-radius:0;padding:0 2px;position:relative;white-space:nowrap;cursor:pointer}.ds-nav button:hover,.ds-nav .ds-nav-active{color:var(--text,#eaecef)}.ds-nav .ds-nav-active::after{content:\"\";position:absolute;height:3px;left:0;right:0;bottom:0;background:var(--gold,#f0b90b)}.ds-nav button:focus-visible{outline:2px solid var(--gold,#f0b90b);outline-offset:3px;}"
+    },
+    {
+      "name": "周期选项",
+      "kind": "button",
+      "refersTo": "period-selected",
+      "description": "周期选项呈现当前选择，非独立徽章。",
+      "html": "<div class=\"ds-periods\" role=\"group\" aria-label=\"K线周期\"><button class=\"ds-period-active\" aria-pressed=\"true\">5分钟</button><button aria-pressed=\"false\">日线</button></div>",
+      "css": ".ds-periods{display:flex;gap:3px;background:var(--surface,#161a1e);padding:9px 14px}.ds-periods button{font-family:Inter, -apple-system, BlinkMacSystemFont, \"PingFang SC\", \"Microsoft YaHei\", sans-serif;font-size:13px;line-height:1.55;font-size:12px;background:transparent;color:var(--muted,#a1a7b0);border:0;border-radius:4px;padding:4px 9px;min-height:26px;cursor:pointer}.ds-periods button:hover{background:var(--raised,#1e2329)}.ds-periods .ds-period-active{background:var(--raised,#1e2329);color:var(--gold,#f0b90b)}.ds-periods button:focus-visible{outline:2px solid var(--gold,#f0b90b);outline-offset:3px;}"
+    },
+    {
+      "name": "平面面板",
+      "kind": "card",
+      "refersTo": "panel",
+      "description": "细边界和紧凑面板标题。",
+      "html": "<section class=\"ds-panel\"><div class=\"ds-panel-heading\"><h2>五档盘口</h2><span>休市快照</span></div><p>报价源与时刻随数据展示</p></section>",
+      "css": ".ds-panel{font-family:Inter, -apple-system, BlinkMacSystemFont, \"PingFang SC\", \"Microsoft YaHei\", sans-serif;font-size:13px;line-height:1.55;background:var(--surface,#161a1e);color:var(--text,#eaecef);border:1px solid var(--border,#2b3139);min-width:0}.ds-panel-heading{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:13px 16px;border-bottom:1px solid var(--border,#2b3139)}.ds-panel-heading h2{margin:0;font-size:14px;font-weight:600}.ds-panel-heading span{color:var(--muted,#a1a7b0);font-size:11px}.ds-panel p{margin:0;padding:12px 16px;color:var(--muted,#a1a7b0);font-size:11px}"
+    },
+    {
+      "name": "窄手机双侧盘口",
+      "kind": "custom",
+      "refersTo": "panel",
+      "description": "每侧自有列头；占位符用于样式展示，不构成行情。",
+      "html": "<div class=\"ds-books\"><div class=\"ds-book-side\"><div class=\"ds-book-head\"><span>价格</span><span>数量</span><span>档位</span></div><div class=\"ds-book-row ds-sell\"><i></i><span>—</span><span>—</span><span>卖1</span></div></div><div class=\"ds-book-side\"><div class=\"ds-book-head\"><span>价格</span><span>数量</span><span>档位</span></div><div class=\"ds-book-row ds-buy\"><i></i><span>—</span><span>—</span><span>买1</span></div></div></div>",
+      "css": ".ds-books{font-family:Inter, -apple-system, BlinkMacSystemFont, \"PingFang SC\", \"Microsoft YaHei\", sans-serif;font-size:13px;line-height:1.55;display:grid;grid-template-columns:1fr 1fr;gap:8px;background:var(--surface,#161a1e);color:var(--text,#eaecef);font-variant-numeric:tabular-nums}.ds-book-side{min-width:0}.ds-book-head,.ds-book-row{display:grid;grid-template-columns:1fr 1fr 25px;gap:3px;padding:0 10px;font-size:10px}.ds-book-head{padding-top:6px;padding-bottom:6px;color:var(--muted,#a1a7b0)}.ds-book-head>span:not(:first-child),.ds-book-row>span:not(:first-child){text-align:right}.ds-book-row{position:relative;min-height:24px;align-items:center}.ds-book-row i{position:absolute;inset:1px 0 1px auto;width:50%;pointer-events:none}.ds-book-row>span{position:relative}.ds-sell i{background:rgba(246,70,93,.12)}.ds-buy i{background:rgba(14,203,129,.12)}.ds-sell>span:first-of-type{color:var(--red,#ff6b7c)}.ds-buy>span:first-of-type{color:var(--green,#2ed39a)}.ds-book-row>span:last-child{color:var(--muted,#a1a7b0)}"
+    },
+    {
+      "name": "固定评分轨道",
+      "kind": "custom",
+      "refersTo": "score-track",
+      "description": "细轨道配完整的数值标签，样例缺项为零。",
+      "html": "<div class=\"ds-factor\"><span>个股相对强度</span><div class=\"ds-factor-track\" role=\"meter\" aria-label=\"个股相对强度\" aria-valuemin=\"0\" aria-valuemax=\"20\" aria-valuenow=\"0\"><div class=\"ds-factor-fill\"></div></div><span>0.0 / 20</span></div>",
+      "css": ".ds-factor{font-family:Inter, -apple-system, BlinkMacSystemFont, \"PingFang SC\", \"Microsoft YaHei\", sans-serif;font-size:13px;line-height:1.55;display:grid;grid-template-columns:128px minmax(60px,1fr) 60px;gap:12px;align-items:center;font-size:12px;margin:7px 0;background:var(--surface,#161a1e);color:var(--text,#eaecef)}.ds-factor>span:last-child{text-align:right;color:var(--muted,#a1a7b0)}.ds-factor-track{height:4px;background:var(--border,#2b3139);border-radius:2px;overflow:hidden}.ds-factor-fill{height:100%;width:0;background:var(--gold,#f0b90b)}"
+    }
+  ],
+  "narrative": {
+    "northStar": "深炭金色行情终端",
+    "overview": "用户已明确选择参考币安的深色、金色强调和紧凑交易终端语言。当前界面以深炭底色、平面分区、数字密度和真实行情图表构成操作型观察台；品牌使用独立的“OpenPike Stocks”名称及金色 OP 字母组合标志。此名称概括已实现的视觉方向，不表示存在独立获批的设计稿。\n\n图表和盘口是主视觉，金色集中用于身份、选中状态、评分及操作入口。状态文字、来源与时间是界面的一部分：历史快照、形成中K线和未完成核查保持可见。研究评分、手工成交登记、独立纸面账户与前向验证沿用同一套紧凑分区语言。",
+    "keyCharacteristics": [
+      "深炭平面分区与细边界",
+      "金色身份、选中状态和评分",
+      "真实K线、成交量与五档盘口",
+      "绿色上涨、红色下跌，配合符号和买卖档文字",
+      "手机先图表，再盘口与条件，再候选和评分"
+    ],
+    "rules": [
+      {
+        "name": "语义行情",
+        "body": "上涨与买档使用绿色，下跌与卖档使用红色；涨跌幅保留正负号，档位保留买／卖文字，颜色不是唯一信息。",
+        "section": "colors"
+      },
+      {
+        "name": "同股同源状态",
+        "body": "选股时价格、盘口、评分、条件与图表同步切换；来源、时间、完整度和阻断原因随对应数据展示，不用视觉上的“通过”替代核验状态。",
+        "section": "components"
+      }
+    ],
+    "dos": [
+      "Do 沿用深炭、金色、紧凑数字和独立蜡烛品牌标记。",
+      "Do 保持手机图表优先；窄手机的买卖盘口分别拥有与数据对齐的列头。",
+      "Do 保留金色键盘焦点、正负号、买卖档文字、表格数字对齐与辅助标签。",
+      "Do 展示真实OHLC及成交量、周期复权方式、形成中状态和对应来源时间。",
+      "Do 保留休市、过期、冲突、缺项与连接中断的文字状态及空数据占位。",
+      "Do 让手工真实成交、纸面账户、研究与前向验证保持可识别的独立区域。"
+    ],
+    "donts": [
+      "Don't 复制币安名称、标志或替换独立产品身份。",
+      "Don't 将评分、排名或金色强调表现为已验证胜率或收益承诺。",
+      "Don't 补造价格、K线、成交量、成交记录或缺失的研究数据。",
+      "Don't 把休市和历史快照表现为当前有效报价，或隐藏阻断原因。",
+      "Don't 将手工成交登记改成证券委托入口。",
+      "Don't 添加与当前平面终端无关的装饰插画、渐变大卡片或悬浮阴影。"
+    ]
+  }
+}

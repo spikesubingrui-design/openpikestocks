@@ -1,0 +1,4 @@
+-c requirements.lock
+fastapi
+uvicorn
+websockets==15.0.1
